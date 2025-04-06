@@ -40,49 +40,9 @@
   <div id="snapshots"></div>
 
   <script>
-    const DROPBOX_TOKEN = '<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Phishing Snapshot Viewer</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-      max-width: 800px;
-      margin: 0 auto;
-      text-align: center;
-    }
-    #snapshots {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 10px;
-      justify-items: center;
-    }
-    .snapshot-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    #snapshots img {
-      max-width: 100%;
-      height: auto;
-      border: 2px solid #ccc;
-    }
-    .button-container {
-      margin-top: 10px;
-    }
-    .button-container button {
-      margin: 5px;
-    }
-  </style>
-</head>
-<body>
-  <h2>Captured Snapshots</h2>
-  <div id="snapshots"></div>
-
-  <script>
-    const DROPBOX_TOKEN = 'sl.u.AFp6bsQwrTQ6c4CH5rGoxfHRT9kBpJCwbvHgRV-P2vTWyj8bw9mBRu97SoGZH_nNkCDc3IER_dQc_It4nZPBUhm4XALpCyvpj4dvGXAyAj3lYiaS31vmj2Qm0VPasUwFIV2E_-zMAp73iOIdo9mTHq4JOYdHl5By0GpAqxjF5LBfEae4tLGOU8T-arRqbH5dj9LvUxnc4fXUyj0q3wuRb1cTrPiyroxas9Xpk5QTVFNDuIlil9jR3kbLvFFmf5trtnuo4_0eWmg-LCjBfq6Q8PhfvWFYOwnM0oelV11QZOsxfTbwPMv_1WQv6FL6lBdsFD_CAqJtETdhYUVuWg94HdxBxXAb5hGSPPs18aLMn1D4APbMzTmJw8Jnucat0TsjgsQIQdBii8Dc8CYqJAXWAAiHJ2LJBLErOMFSqnGoxM0o_swO_3yLTsL_Bsd8fbyn2vR7KY96eU-T_EruRx6x8Dn-jH2GkflVNp94ga-N5Hnhzyl9B9S8EPlKw-nDZB-sjAMYWy3_Yad_JLLu_7GSTU1k31Io7gB1vuq7lGKwomeSkMMI_d1al7mfI7iqxggjfbGxhU4mzhcGgTKOytzdvYHNmTgLxesvqwX5PUVB2kUBEJX-Xs9dHY41ah2RyKa5HPJ8ek_st5N_EVGNJEh5g19yGsSj-ecZEEWLtYPbBXJEEwh0MM-sgmFzxp-XHdwBds55nKiRBi2hRIQik10DO5x4aRo2BzGWRwmQNVjzfAqRcFuxcSnv-crEb6uk6AiI8oRMv86qyOXIWVq1h7y1VrBb04sWjH-mFMNT7vF4MzEXOgm6NlxBxG9A88EfNAj6HUXnKhEoWDKKVXlOAwMYmsfssiDXr4AgYQRBjAYs-8S4y0JRXqp6QXhuuX8KP1OiWlXxjQOKNShjjf0A7sRa1MYVjX6wQKaEXttBOXYACxaZg-ZgFU8_1V2RM0_7fass-G5uIrkLgKC5z_bAwJQnviRJtSZDACX4poMkW71FN_aGoV0ei5I5t16wAwom8k4WWyjkBAiF8eTuqu0_rV3NArXkxzZ5RyksQ00Fp3D6R_SkqIftE2wVtUHIVjAJWNp0jIu7aygn3uLuiisWJFPiBcWM3AipSK9GJ86UsJip0ejHityd-8vXJh2p_tt7jtoQKrxB0gwmIUSu7xkOXA70hif5yesAiXSeuT-aMI3Wh9U4590rezP0GqlhItaDyC4ecsEfLH05EWOuINhllK7qowBgXe0sNtfGagTuxCGmk2wndHyIvEb9H55YgZQJau__TAApfL8dqFEp6cHsOcY7-njUl8k6_LRRlOTBS9zCCkYc1l5biLptgCITNXmhdEyfOhs3XbtXXcGB7UPRDLEF9FxaeANQaXwQZhD4Z8GLRf6YJPg3Vwie1ZNYUm5Bysxh4Ipy2H6DPT1-3Zmd1DYODg41DOxRGbJzECN6w2cKyDXGBuFxgt1vqef5MnIj6mONnOJeTCjmIn5DwhuBbOrF-aVJTe8BmkCITch8V4tPnZmdtQ'; // Never expose this in production!
+    // SECURITY ISSUE: Token should never be exposed in frontend code
+    // Should be moved to backend environment variables
+    const DROPBOX_TOKEN = 'sl.u.AFp6bsQwrTQ6c4CH5rGoxfHRT9kBpJCwbvHgRV-P2vTWyj8bw9mBRu97SoGZH_nNkCDc3IER_dQc_It4nZPBUhm4XALpCyvpj4dvGXAyAj3lYiaS31vmj2Qm0VPasUwFIV2E_-zMAp73iOIdo9mTHq4JOYdHl5By0GpAqxjF5LBfEae4tLGOU8T-arRqbH5dj9LvUxnc4fXUyj0q3wuRb1cTrPiyroxas9Xpk5QTVFNDuIlil9jR3kbLvFFmf5trtnuo4_0eWmg-LCjBfq6Q8PhfvWFYOwnM0oelV11QZOsxfTbwPMv_1WQv6FL6lBdsFD_CAqJtETdhYUVuWg94HdxBxXAb5hGSPPs18aLMn1D4APbMzTmJw8Jnucat0TsjgsQIQdBii8Dc8CYqJAXWAAiHJ2LJBLErOMFSqnGoxM0o_swO_3yLTsL_Bsd8fbyn2vR7KY96eU-T_EruRx6x8Dn-jH2GkflVNp94ga-N5Hnhzyl9B9S8EPlKw-nDZB-sjAMYWy3_Yad_JLLu_7GSTU1k31Io7gB1vuq7lGKwomeSkMMI_d1al7mfI7iqxggjfbGxhU4mzhcGgTKOytzdvYHNmTgLxesvqwX5PUVB2kUBEJX-Xs9dHY41ah2RyKa5HPJ8ek_st5N_EVGNJEh5g19yGsSj-ecZEEWLtYPbBXJEEwh0MM-sgmFzxp-XHdwBds55nKiRBi2hRIQik10DO5x4aRo2BzGWRwmQNVjzfAqRcFuxcSnv-crEb6uk6AiI8oRMv86qyOXIWVq1h7y1VrBb04sWjH-mFMNT7vF4MzEXOgm6NlxBxG9A88EfNAj6HUXnKhEoWDKKVXlOAwMYmsfssiDXr4AgYQRBjAYs-8S4y0JRXqp6QXhuuX8KP1OiWlXxjQOKNShjjf0A7sRa1MYVjX6wQKaEXttBOXYACxaZg-ZgFU8_1V2RM0_7fass-G5uIrkLgKC5z_bAwJQnviRJtSZDACX4poMkW71FN_aGoV0ei5I5t16wAwom8k4WWyjkBAiF8eTuqu0_rV3NArXkxzZ5RyksQ00Fp3D6R_SkqIftE2wVtUHIVjAJWNp0jIu7aygn3uLuiisWJFPiBcWM3AipSK9GJ86UsJip0ejHityd-8vXJh2p_tt7jtoQKrxB0gwmIUSu7xkOXA70hif5yesAiXSeuT-aMI3Wh9U4590rezP0GqlhItaDyC4ecsEfLH05EWOuINhllK7qowBgXe0sNtfGagTuxCGmk2wndHyIvEb9H55YgZQJau__TAApfL8dqFEp6cHsOcY7-njUl8k6_LRRlOTBS9zCCkYc1l5biLptgCITNXmhdEyfOhs3XbtXXcGB7UPRDLEF9FxaeANQaXwQZhD4Z8GLRf6YJPg3Vwie1ZNYUm5Bysxh4Ipy2H6DPT1-3Zmd1DYODg41DOxRGbJzECN6w2cKyDXGBuFxgt1vqef5MnIj6mONnOJeTCjmIn5DwhuBbOrF-aVJTe8BmkCITch8V4tPnZmdtQ'; // Replace with secure backend authentication
     const DROPBOX_FOLDER = '/snapshots';
     
     async function listDropboxFiles() {
@@ -177,107 +137,6 @@
     
     // Initial load
     loadSnapshots();
-    </script>
+  </script>
 </body>
 </html>
-
-'; // Never expose this in production!
-    const DROPBOX_FOLDER = '/snapshots';
-    
-    async function listDropboxFiles() {
-      const url = 'https://api.dropboxapi.com/2/files/list_folder';
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${DROPBOX_TOKEN}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          path: DROPBOX_FOLDER,
-          recursive: false,
-          include_media_info: false,
-          include_deleted: false
-        })
-      });
-      return response.json();
-    }
-    
-    async function getTemporaryLink(path) {
-      const url = 'https://api.dropboxapi.com/2/files/get_temporary_link';
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${DROPBOX_TOKEN}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ path })
-      });
-      return response.json();
-    }
-    
-    async function deleteFile(path) {
-      const url = 'https://api.dropboxapi.com/2/files/delete_v2';
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${DROPBOX_TOKEN}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ path })
-      });
-      return response.json();
-    }
-    
-    // Load and display images
-    async function loadSnapshots() {
-      try {
-        const files = await listDropboxFiles();
-        const snapshotsContainer = document.getElementById('snapshots');
-        snapshotsContainer.innerHTML = '';
-    
-        for (const entry of files.entries) {
-          const linkData = await getTemporaryLink(entry.path_display);
-          
-          const snapshotDiv = document.createElement('div');
-          snapshotDiv.classList.add('snapshot-container');
-          
-          snapshotDiv.innerHTML = `
-            <img src="${linkData.link}" alt="Snapshot">
-            <div class="button-container">
-              <button onclick="downloadSnapshot('${linkData.link}')">⬇️ Download</button>
-              <button onclick="deleteSnapshot('${entry.path_display}')">🗑️ Delete</button>
-            </div>
-          `;
-          
-          snapshotsContainer.appendChild(snapshotDiv);
-        }
-      } catch (error) {
-        console.error("Error loading snapshots:", error);
-      }
-    }
-    
-    function downloadSnapshot(url) {
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `snapshot_${Date.now()}.png`;
-      a.click();
-    }
-    
-    async function deleteSnapshot(path) {
-      if (confirm("Delete this snapshot?")) {
-        try {
-          await deleteFile(path);
-          loadSnapshots(); // Refresh the list
-        } catch (error) {
-          console.error("Delete failed:", error);
-        }
-      }
-    }
-    
-    // Initial load
-    loadSnapshots();
-    </script>
-</body>
-</html>
-
-
