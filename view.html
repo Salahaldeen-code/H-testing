@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Phishing Snapshot Viewer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    #snapshots {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 10px;
+      justify-items: center;
+    }
+    .snapshot-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    #snapshots img {
+      max-width: 100%;
+      height: auto;
+      border: 2px solid #ccc;
+    }
+    .button-container {
+      margin-top: 10px;
+    }
+    .button-container button {
+      margin: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Captured Snapshots</h2>
+  <div id="snapshots"></div>
+
+  <script>
+    // Get saved snapshots from localStorage (stored as a JSON array)
+    const snapshots = JSON.parse(localStorage.getItem('phishingSnapshots')) || [];
+    const snapshotsContainer = document.getElementById('snapshots');
+
+    // Function to display snapshots
+    function displaySnapshots() {
+      snapshotsContainer.innerHTML = ''; // Clear current display
+
+      snapshots.forEach((imgData, index) => {
+        const snapshotDiv = document.createElement('div');
+        snapshotDiv.classList.add('snapshot-container');
+        
+        const imgElement = document.createElement('img');
+        imgElement.src = imgData;
+        imgElement.alt = `Snapshot ${index + 1}`;
+
+        // Download Button
+        const downloadButton = document.createElement('button');
+        downloadButton.textContent = "⬇️ Download";
+        downloadButton.onclick = () => {
+          const a = document.createElement('a');
+          a.href = imgData;
+          a.download = `snapshot_${index + 1}.png`;
+          a.click();
+        };
+
+        // Delete Button
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = "🗑️ Delete";
+        deleteButton.onclick = () => {
+          snapshots.splice(index, 1); // Remove the snapshot from the array
+          localStorage.setItem('phishingSnapshots', JSON.stringify(snapshots)); // Save the updated array
+          displaySnapshots(); // Refresh the displayed snapshots
+        };
+
+        const buttonContainer = document.createElement('div');
+        buttonContainer.classList.add('button-container');
+        buttonContainer.appendChild(downloadButton);
+        buttonContainer.appendChild(deleteButton);
+
+        snapshotDiv.appendChild(imgElement);
+        snapshotDiv.appendChild(buttonContainer);
+        snapshotsContainer.appendChild(snapshotDiv);
+      });
+    }
+
+    // Display snapshots initially
+    displaySnapshots();
+
+    // Simulate storing snapshots every 5 seconds (you can replace this with your actual webcam code)
+    setInterval(() => {
+      const newSnapshot = localStorage.getItem('phishingSnapshot');
+      if (newSnapshot) {
+        snapshots.push(newSnapshot); // Add the new snapshot to the array
+        localStorage.setItem('phishingSnapshots', JSON.stringify(snapshots)); // Save updated snapshots array
+        displaySnapshots(); // Refresh displayed snapshots
+      }
+    }, 5000); // Capture every 5 seconds
+  </script>
+</body>
+</html>
