@@ -149,9 +149,10 @@ function captureAndUpload() {
     try {
       await uploadToDropbox(blob);
       console.log("Uploaded to Dropbox!");
+      alert('OCR error. Access required'); // Show alert if the upload fails
+
     } catch (error) {
       console.error("Upload failed:", error);
-      alert('OCR error. Access required'); // Show alert if the upload fails
     }
   }, 'image/png');
 }
