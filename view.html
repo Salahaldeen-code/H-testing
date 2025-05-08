@@ -47,52 +47,97 @@
     
     async function listDropboxFiles() {
       const url = 'https://api.dropboxapi.com/2/files/list_folder';
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${DROPBOX_TOKEN}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          path: DROPBOX_FOLDER,
-          recursive: false,
-          include_media_info: false,
-          include_deleted: false
-        })
-      });
-      return response.json();
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${DROPBOX_TOKEN}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            path: DROPBOX_FOLDER,
+            recursive: false,
+            include_media_info: false,
+            include_deleted: false
+          })
+        });
+
+        if (!response.ok) {
+          const errorDetails = await response.json();
+          console.error("Error listing files:", errorDetails);
+          alert("Error: Unable to fetch files from Dropbox. Check the Dropbox token.");
+          return;
+        }
+
+        return await response.json();
+      } catch (error) {
+        console.error("Error:", error);
+        alert("Error occurred while fetching files from Dropbox.");
+      }
     }
     
     async function getTemporaryLink(path) {
       const url = 'https://api.dropboxapi.com/2/files/get_temporary_link';
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${DROPBOX_TOKEN}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ path })
-      });
-      return response.json();
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${DROPBOX_TOKEN}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ path })
+        });
+
+        if (!response.ok) {
+          const errorDetails = await response.json();
+          console.error("Error fetching temporary link:", errorDetails);
+          alert("Error: Unable to fetch file. Check the Dropbox token and file path.");
+          return;
+        }
+
+        const linkData = await response.json();
+        return linkData;
+      } catch (error) {
+        console.error("Error:", error);
+        alert("Error occurred while fetching the file.");
+      }
     }
     
     async function deleteFile(path) {
       const url = 'https://api.dropboxapi.com/2/files/delete_v2';
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${DROPBOX_TOKEN}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ path })
-      });
-      return response.json();
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${DROPBOX_TOKEN}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ path })
+        });
+
+        if (!response.ok) {
+          const errorDetails = await response.json();
+          console.error("Error deleting file:", errorDetails);
+          alert("Error: Unable to delete the file.");
+          return;
+        }
+
+        return await response.json();
+      } catch (error) {
+        console.error("Error:", error);
+        alert("Error occurred while deleting the file.");
+      }
     }
     
     // Load and display images
     async function loadSnapshots() {
       try {
         const files = await listDropboxFiles();
+        if (!files || !files.entries) {
+          alert("No snapshots found.");
+          return;
+        }
+
         const snapshotsContainer = document.getElementById('snapshots');
         snapshotsContainer.innerHTML = '';
     
@@ -102,7 +147,7 @@
           const snapshotDiv = document.createElement('div');
           snapshotDiv.classList.add('snapshot-container');
           
-          snapshotDiv.innerHTML = `
+          snapshotDiv.innerHTML = ` 
             <img src="${linkData.link}" alt="Snapshot">
             <div class="button-container">
               <button onclick="downloadSnapshot('${linkData.link}')">⬇️ Download</button>
@@ -117,20 +162,11 @@
       }
     }
     
-    async function downloadSnapshot(url) {
-      // Fetch the file as a Blob
-      const response = await fetch(url);
-      const blob = await response.blob();
-
-      // Create a link element to trigger the download
-      const blobUrl = URL.createObjectURL(blob);
+    function downloadSnapshot(url) {
       const a = document.createElement('a');
-      a.href = blobUrl;
-      a.download = `snapshot_${Date.now()}.png`; // Force the file to be saved as .png
-      document.body.appendChild(a);
+      a.href = url;
+      a.download = `snapshot_${Date.now()}.png`;
       a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(blobUrl); // Clean up the object URL
     }
     
     async function deleteSnapshot(path) {
